@@ -1,0 +1,32 @@
+.container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.time-container,
+.point-container {
+  display: flex;
+  flex-direction: column;
+  color: #116530;
+}
+
+.count-down,
+.points {
+  font-weight: 600;
+  font-size: 1.3rem;
+}
+
+button {
+  font-weight: 600;
+  padding: 10px 20px;
+  border: solid 2px #116530;
+  border-radius: 20px;
+  color: #116530;
+  background-color: white;
+}
+
+button:hover {
+  background-color: #116530;
+  color: white;
+  cursor: pointer;
+}
