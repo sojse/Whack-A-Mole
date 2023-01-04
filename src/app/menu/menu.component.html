@@ -1,13 +1,18 @@
 <div class="container">
   <div class="time-container">
     <span>Time Remaining</span>
-    <span class="count-down">60</span>
+    <span class="count-down">{{ time }}</span>
   </div>
 
   <div class="point-container">
     <span>Points</span>
-    <span class="points">0</span>
+    <span class="points">{{ points }}</span>
   </div>
 
-  <button>Start Game</button>
+  <button
+    (click)="startGame()"
+    [ngClass]="disableButton === true ? 'disable' : ''"
+  >
+    Start Game
+  </button>
 </div>

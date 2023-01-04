@@ -1,6 +1,7 @@
 .container {
   display: flex;
   justify-content: space-between;
+  margin-bottom: 30px;
 }
 
 .time-container,
@@ -23,10 +24,20 @@ button {
   border-radius: 20px;
   color: #116530;
   background-color: white;
+  cursor: pointer;
 }
 
 button:hover {
   background-color: #116530;
   color: white;
-  cursor: pointer;
+}
+
+.disable {
+  cursor: not-allowed;
+  background-color: #116530;
+  color: grey;
+}
+
+.disable:hover {
+  color: grey;
 }
