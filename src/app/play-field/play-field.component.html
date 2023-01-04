@@ -1,1 +1,9 @@
-<p>play-field works!</p>
+<div class="playfield">
+  <div
+    class="square"
+    id="square{{ i }}"
+    *ngFor="let in of counter(25); index as i"
+  >
+    <img id="mole{{ i }}" src="..\assets\images\mole-head.png" alt="" />
+  </div>
+</div>

@@ -1,0 +1,27 @@
+.playfield {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+}
+
+.square {
+  margin-bottom: 15px;
+  border: solid 1px black;
+  height: 100px;
+  width: 100px;
+  justify-self: center;
+  display: flex;
+}
+
+.square:hover {
+  background-color: #116530;
+}
+
+img {
+  width: 100%;
+  object-fit: contain;
+}
+
+.empty {
+  display: none;
+}
