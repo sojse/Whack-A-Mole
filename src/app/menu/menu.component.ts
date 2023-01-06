@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter } from '@angular/core';
+import { Output, Input } from '@angular/core';
 
 import { TimeCounterService } from '../time-counter.service';
 
@@ -9,8 +10,9 @@ import { TimeCounterService } from '../time-counter.service';
 })
 export class MenuComponent {
   time: number = 60;
-  points: number = 0;
+  @Input() points: number = 0;
   disableButton: boolean = false;
+  @Output() gameStarted = new EventEmitter<number>();
 
   // dependency injection of the TimeCounterService making it available to use in this class
   constructor(private _countDown: TimeCounterService) { }
@@ -24,11 +26,14 @@ export class MenuComponent {
     // Subscribing to the observable in the TimeCounterService to get the count down data. 
     this._countDown.countDown().subscribe((data) => {
       this.time = data;
+      //controls if the start game button will be disabled or enabled
       if(this.time === 0) {
         this.disableButton = false;
       } else {
         this.disableButton = true;
       }
+
+      this.gameStarted.emit(this.time);
     })
   }
 }

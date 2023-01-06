@@ -5,8 +5,8 @@ import { Component } from '@angular/core';
   template: `
   <div class="container">
     <h1>Whack-A-Mole</h1>
-    <app-menu></app-menu>
-    <app-play-field></app-play-field>
+    <app-menu [points]="currentPoints"></app-menu>
+    <app-play-field (countPoints)="updatePoints($event)"></app-play-field>
   </div>
   `,
   styles: [`
@@ -21,5 +21,9 @@ import { Component } from '@angular/core';
   `]
 })
 export class AppComponent {
+  currentPoints: number = 0;
 
+  updatePoints(points: number) {
+    this.currentPoints = points;
+  }
 }

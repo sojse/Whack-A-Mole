@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 
 import { MoleGeneratorService } from '../mole-generator.service';
 import { AvailableSquares } from '../AvailableSquares';
@@ -9,7 +9,8 @@ import { AvailableSquares } from '../AvailableSquares';
   styleUrls: ['./play-field.component.css']
 })
 export class PlayFieldComponent implements OnInit {
-  amountOfSquares: number[] = [1, 2, 3, 4, 5];
+  points: number = 0;
+  @Output() countPoints = new EventEmitter<number>();
   playField: AvailableSquares[] = [
     {id: 0, available: true},
     {id: 1, available: true},
@@ -46,21 +47,31 @@ export class PlayFieldComponent implements OnInit {
     return new Array(i);
   }
 
-  ngOnInit(): void {
-    this.getPlayFieldSquares();
-  }
+  ngOnInit() {
 
-  getPlayFieldSquares() {
-    let playFieldSquare = this._moleGenerator.generateMole();
-
-    for(let i = 0; i <= 25; i++) {
-      if(playFieldSquare === this.playField[i].id) {
-        this.playField[i].available = false;
+    this._moleGenerator.generateMole().subscribe((data) => {
+      for(let i = 0; i <= 24; i++) {
+        if(data === this.playField[i].id) {
+            this.playField[i].available = false
+            setInterval(() => {
+              this.playField[i].available = true
+            }, 4000);
+            console.log(data);
+        }
       }
-    }
+    });
 
-    console.log(playFieldSquare);
   }
 
- 
+  clickedSquare(index: number) {
+    if (this.playField[index].available === false) {
+      this.points++;
+      this.countPoints.emit(this.points);
+      this.playField[index].available = true;
+    }
+  }
+
+  getPlayFieldSquares(time:number) {
+
+  }
 }

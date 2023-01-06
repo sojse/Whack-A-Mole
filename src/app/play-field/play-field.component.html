@@ -3,6 +3,7 @@
     class="square"
     id="square{{ i }}"
     *ngFor="let in of counter(25); index as i"
+    (click)="clickedSquare(i)"
   >
     <img
       id="mole{{ i }}"
