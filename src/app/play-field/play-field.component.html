@@ -4,6 +4,11 @@
     id="square{{ i }}"
     *ngFor="let in of counter(25); index as i"
   >
-    <img id="mole{{ i }}" src="..\assets\images\mole-head.png" alt="" />
+    <img
+      id="mole{{ i }}"
+      src="..\assets\images\mole-head.png"
+      alt=""
+      [ngClass]="playField[i].available === true ? 'empty' : ''"
+    />
   </div>
 </div>
