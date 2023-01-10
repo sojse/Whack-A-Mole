@@ -7,9 +7,8 @@ import { AvailableSquares } from './AvailableSquares';
   providedIn: 'root'
 })
 export class MoleGeneratorService {
-  maxAmountOfMoles: number = 3;
   maxVisibleTime: number = 4;   //in seconds
-  availableSquare: AvailableSquares = {id: 0, available: true };
+  occupiedSquares: number[] = [];
 
   constructor() { }
 
@@ -17,20 +16,26 @@ export class MoleGeneratorService {
     return Math.floor(Math.random() * (max + 1));
   }  
 
+  /**
+   * creates an observable that will generate random numbers that will be used to determine
+   * what square the mole will pop up in. 
+   */
   generateMole() {
     let playFieldsSquare: number = 0;
 
     return new Observable<number>((observer) => {
-      setInterval(() => {
+      setTimeout(() => {
         playFieldsSquare = this.getRandomNumber(24);
         observer.next(playFieldsSquare);
-      }, 1000 * this.getRandomNumber(10));
+      }, 1000 * this.getRandomNumber(4));
     })
   }
 
-  timeCounter(activeSquare: number) {
-    setInterval(()=> {
-      activeSquare
-    }, 1000 * this.maxVisibleTime);
+  makeAvailable(occupiedSquare: number) {
+    setTimeout(() => {
+      let index = this.occupiedSquares.indexOf(occupiedSquare);
+      this.occupiedSquares.splice(index, 1)
+    }, 4000)
   }
+
 }

@@ -6,7 +6,7 @@ import { Component } from '@angular/core';
   <div class="container">
     <h1>Whack-A-Mole</h1>
     <app-menu [points]="currentPoints" (gameStarted)="getTime($event)"></app-menu>
-    <app-play-field (countPoints)="updatePoints($event)"  [time]="currentTime"></app-play-field>
+    <app-play-field (countPoints)="updatePoints($event)" [time]="currentTime"></app-play-field>
   </div>
   `,
   styles: [`
