@@ -24,20 +24,13 @@ export class MoleGeneratorService {
       setInterval(() => {
         playFieldsSquare = this.getRandomNumber(24);
         observer.next(playFieldsSquare);
-      }, 100 * this.getRandomNumber(10));
+      }, 1000 * this.getRandomNumber(10));
     })
-    /**
-    //if the current moles haven't overpassed the max value
-    if(moles != numberOfMoles) {
-      playFieldsSquare = this.getRandomNumber(24);  //generates random numbers on the playfield
-      moles++;
-    }*/
-    //return playFieldsSquare;
   }
 
   timeCounter(activeSquare: number) {
     setInterval(()=> {
       activeSquare
-    }, 1000 * this.maxVisibleTime);
+    }, 100 * this.maxVisibleTime);
   }
 }

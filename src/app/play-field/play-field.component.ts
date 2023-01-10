@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, OnChanges } from '@angular/core';
 
 import { MoleGeneratorService } from '../mole-generator.service';
 import { AvailableSquares } from '../AvailableSquares';
@@ -8,8 +8,9 @@ import { AvailableSquares } from '../AvailableSquares';
   templateUrl: './play-field.component.html',
   styleUrls: ['./play-field.component.css']
 })
-export class PlayFieldComponent implements OnInit {
+export class PlayFieldComponent implements OnChanges {
   points: number = 0;
+  @Input() time: number = 0;
   @Output() countPoints = new EventEmitter<number>();
   playField: AvailableSquares[] = [
     {id: 0, available: true},
@@ -47,20 +48,29 @@ export class PlayFieldComponent implements OnInit {
     return new Array(i);
   }
 
-  ngOnInit() {
+  /**
+   * This function will run every time the time input variable changes
+   * it will then check the time to see if it is running or not and if the
+   * time is running the game will start
+   */
+  ngOnChanges() {
+    if(this.time !== 0) {
+      this.startGame();
+    }
+  }
 
+  startGame() {
     this._moleGenerator.generateMole().subscribe((data) => {
-      for(let i = 0; i <= 24; i++) {
-        if(data === this.playField[i].id) {
-            this.playField[i].available = false
-            setInterval(() => {
-              this.playField[i].available = true
-            }, 4000);
-            console.log(data);
+    for(let i = 0; i <= 24; i++) {
+      if(data === this.playField[i].id) {
+          this.playField[i].available = false
+          setInterval(() => {
+            this.playField[i].available = true
+          }, 4000);
+          console.log(data);
         }
       }
     });
-
   }
 
   clickedSquare(index: number) {
@@ -70,8 +80,5 @@ export class PlayFieldComponent implements OnInit {
       this.playField[index].available = true;
     }
   }
-
-  getPlayFieldSquares(time:number) {
-
-  }
+  
 }

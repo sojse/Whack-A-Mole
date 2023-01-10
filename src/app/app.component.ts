@@ -5,8 +5,8 @@ import { Component } from '@angular/core';
   template: `
   <div class="container">
     <h1>Whack-A-Mole</h1>
-    <app-menu [points]="currentPoints"></app-menu>
-    <app-play-field (countPoints)="updatePoints($event)"></app-play-field>
+    <app-menu [points]="currentPoints" (gameStarted)="getTime($event)"></app-menu>
+    <app-play-field (countPoints)="updatePoints($event)"  [time]="currentTime"></app-play-field>
   </div>
   `,
   styles: [`
@@ -21,9 +21,18 @@ import { Component } from '@angular/core';
   `]
 })
 export class AppComponent {
+  /**
+   * the points is given from the playfield component and is forwarded to the menu component
+   * the time is given from the menu component and forwarded to the playfield component
+   */
   currentPoints: number = 0;
+  currentTime: number = 0;
 
   updatePoints(points: number) {
     this.currentPoints = points;
+  }
+
+  getTime(time: number) {
+    this.currentTime = time;
   }
 }
