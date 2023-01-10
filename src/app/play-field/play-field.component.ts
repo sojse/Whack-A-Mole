@@ -10,8 +10,10 @@ import { AvailableSquares } from '../AvailableSquares';
 })
 export class PlayFieldComponent implements OnChanges {
   points: number = 0;
-  @Input() time: number = 0;
   @Output() countPoints = new EventEmitter<number>();
+
+  @Input() time: number = 0;
+
   playField: AvailableSquares[] = [
     {id: 0, available: true},
     {id: 1, available: true},
@@ -38,7 +40,6 @@ export class PlayFieldComponent implements OnChanges {
     {id: 22, available: true},
     {id: 23, available: true},
     {id: 24, available: true},
-    {id: 25, available: true},
   ];
 
   constructor(private _moleGenerator: MoleGeneratorService) { }
@@ -59,11 +60,17 @@ export class PlayFieldComponent implements OnChanges {
     }
   }
 
+  /**
+   * Starts the game by using the moleGenerator service function generate mole that returns an
+   * observable that I am subscribing to to get the data with random numbers between 0-24
+   * this number then changes the square with that index to unavailable and a mole pops up 
+   */
   startGame() {
     this._moleGenerator.generateMole().subscribe((data) => {
     for(let i = 0; i <= 24; i++) {
       if(data === this.playField[i].id) {
           this.playField[i].available = false
+          //after 4 seconds the mole will disappear
           setInterval(() => {
             this.playField[i].available = true
           }, 4000);
@@ -73,6 +80,11 @@ export class PlayFieldComponent implements OnChanges {
     });
   }
 
+  /**
+   * gets the index of the square the user pressed, if the square is occupied with a mole the user will get a point
+   * the points are getting emitted to the parent component and will later be used in the menu component to display the points
+   * if a mole was whacked the playfield square will change to available
+   */
   clickedSquare(index: number) {
     if (this.playField[index].available === false) {
       this.points++;

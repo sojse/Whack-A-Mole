@@ -31,6 +31,6 @@ export class MoleGeneratorService {
   timeCounter(activeSquare: number) {
     setInterval(()=> {
       activeSquare
-    }, 100 * this.maxVisibleTime);
+    }, 1000 * this.maxVisibleTime);
   }
 }
