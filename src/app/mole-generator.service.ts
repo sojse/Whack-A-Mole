@@ -7,31 +7,6 @@ import { AvailableSquares } from './AvailableSquares';
   providedIn: 'root'
 })
 export class MoleGeneratorService {
-  maxVisibleTime: number = 4;   //in seconds
-  occupiedSquares: number[] = [];
-
-  constructor() { }
-
-  getRandomNumber(max: number) : number {
-    return Math.floor(Math.random() * (max + 1));
-  }  
-
-  /**
-   * creates an observable that will generate random numbers that will be used to determine
-   * what square the mole will pop up in. 
-   */
-   /*
-  generateMole() {
-    let playFieldsSquare: number = 0;
-
-    return new Observable<number>((observer) => {
-      setTimeout(() => {
-        playFieldsSquare = this.getRandomNumber(24);
-        observer.next(playFieldsSquare);
-      }, 1000 * this.getRandomNumber(10));
-    })
-  }*/
-
   playField: AvailableSquares[] = [
     {id: 0, available: true},
     {id: 1, available: true},
@@ -60,38 +35,60 @@ export class MoleGeneratorService {
     {id: 24, available: true},
   ];
 
+  nbrOfOccupied: number = 0;
+
+
+  constructor() { }
+
+  /**
+ * TO DO
+ * 
+ * 
+ *  fixa så enbart tre moles kan vara uppe samtidigt
+ * 
+ */
+
+  getRandomNumber(max: number) : number {
+    return Math.floor(Math.random() * (max + 1));
+  }  
+
+  /**
+   * Dela upp i mindre metoder
+   * 
+   * i start game ska finnas en timer som varje sekund kör en metod som generatr en metod och kollar
+   */
   startGame() {
     let playFieldsSquare: number = 0;
 
     setTimeout(() => {
       playFieldsSquare = this.getRandomNumber(24);
 
-      for(let i = 0; i < this.playField.length ; i++) {
+      while (!this.playField[playFieldsSquare].available && this.nbrOfOccupied > 3) {
+        playFieldsSquare = this.getRandomNumber(24);
+      }
 
-        //the number that the randomised number matches will display a mole
-        if(playFieldsSquare === this.playField[i].id) {
-            this.makeSquareUnavailable(this.playField[i]);
+      this.makeSquareUnavailable(this.playField[playFieldsSquare]);
+      this.nbrOfOccupied++;
 
-            //after 4 seconds the mole will disappear
-            setTimeout(() => {
-              this.makeSquareAvailable(this.playField[i]);
-            }, 4000);
-        }
+      setTimeout(() => {
+        this.makeSquareAvailable(this.playField[playFieldsSquare]);
+        
+      }, 4000);
+    }, 1000 * this.getRandomNumber(4)); 
 
-      } 
 
-    }, 1000 * this.getRandomNumber(10)); 
+  }
+
+  makeSquareUnavailable(square: AvailableSquares) {
+    square.available = false;
 
   }
 
   makeSquareAvailable(square: AvailableSquares) {
     square.available = true;
-    console.log(square);
-  }
+    this.nbrOfOccupied--;
 
-  makeSquareUnavailable(square: AvailableSquares) {
-    square.available = false;
-    console.log(square);
+
   }
 
   /**
