@@ -2,14 +2,14 @@
   <div
     class="square"
     id="square{{ i }}"
-    *ngFor="let in of counter(25); index as i"
+    *ngFor="let square of _moleGenerator.getPlayfield(); index as i"
     (click)="clickedSquare(i)"
   >
     <img
       id="mole{{ i }}"
       src="..\assets\images\mole-head.png"
       alt=""
-      [ngClass]="playField[i].available === true ? 'empty' : ''"
+      [ngClass]="_moleGenerator.getSquareStatus(i) === true ? 'empty' : ''"
     />
   </div>
 </div>

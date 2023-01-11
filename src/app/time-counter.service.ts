@@ -6,6 +6,8 @@ import { Observable } from 'rxjs';
 })
 export class TimeCounterService {
 
+  private timeLeft: number = 60;
+
   constructor() { }
 
   /**
@@ -13,17 +15,17 @@ export class TimeCounterService {
    * to count down from 60 to 0 seconds
    */
   countDown() {
-    let timeLeft: number = 60;
 
     return new Observable<number>((observer) => {
       setInterval(() => { 
-        if(timeLeft > 0) {
-          timeLeft--;
-        //the data the observer will emit when subscribed to
-        observer.next(timeLeft);          
+        if(this.timeLeft > 0) {
+          this.timeLeft--;
+          //the data the observer will emit when subscribed to
+          observer.next(this.timeLeft);          
         }
       }, 1000);
     });
 
   }
+
 }
