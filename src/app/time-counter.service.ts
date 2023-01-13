@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 })
 export class TimeCounterService {
 
-  private timeLeft: number = 60;
+  private timeLeft: number = 6;
 
   constructor() { }
 

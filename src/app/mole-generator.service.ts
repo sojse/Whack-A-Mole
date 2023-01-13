@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
 
 import { AvailableSquares } from './AvailableSquares';
 
@@ -58,37 +57,44 @@ export class MoleGeneratorService {
    * i start game ska finnas en timer som varje sekund kör en metod som generatr en metod och kollar
    */
   startGame() {
+    //will loop as long as the number generated aren't already occiupied with a mole and as long as the number of
+    //moles isn't over three at the same time
+    setTimeout(() => {
+      this.generateMole();
+    }, 10 * this.getRandomNumber(20));
+  }
+
+  generateMole() {
     let playFieldsSquare: number = 0;
 
-    setTimeout(() => {
+    playFieldsSquare = this.getRandomNumber(24);
+
+    while (!this.playField[playFieldsSquare].available && this.nbrOfOccupied > 3) {
       playFieldsSquare = this.getRandomNumber(24);
+    }
 
-      while (!this.playField[playFieldsSquare].available && this.nbrOfOccupied > 3) {
-        playFieldsSquare = this.getRandomNumber(24);
-      }
+    this.nbrOfOccupied++;
+    console.log(this.nbrOfOccupied);
 
-      this.makeSquareUnavailable(this.playField[playFieldsSquare]);
-      this.nbrOfOccupied++;
 
-      setTimeout(() => {
-        this.makeSquareAvailable(this.playField[playFieldsSquare]);
-        
-      }, 4000);
-    }, 1000 * this.getRandomNumber(4)); 
+    this.playField[playFieldsSquare].available = false;
 
+    setTimeout(() => {
+      this.makeSquareAvailable(this.playField[playFieldsSquare]);
+    }, 4000);
 
   }
 
-  makeSquareUnavailable(square: AvailableSquares) {
-    square.available = false;
-
-  }
 
   makeSquareAvailable(square: AvailableSquares) {
     square.available = true;
     this.nbrOfOccupied--;
+  }
 
-
+  endGame() {
+    this.playField.forEach(element => {
+      this.makeSquareAvailable(element);
+    })
   }
 
   /**

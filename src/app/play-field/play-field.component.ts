@@ -1,13 +1,10 @@
-import { Component, EventEmitter, Input, Output, OnChanges } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 import { MoleGeneratorService } from '../mole-generator.service';
 
 /**
  * TO DO
  * 
- *  fixa så det enbart kan komma upp en mole i samma ruta medans den är unavailable
- * 
- *  fixa så enbart tre moles kan vara uppe samtidigt
  * 
  *  fixa så det inte kommer upp några moles när tiden tar slut
  * 
@@ -19,7 +16,7 @@ import { MoleGeneratorService } from '../mole-generator.service';
   templateUrl: './play-field.component.html',
   styleUrls: ['./play-field.component.css']
 })
-export class PlayFieldComponent implements OnChanges {
+export class PlayFieldComponent {
   
   points: number = 0;
   @Output() countPoints = new EventEmitter<number>();
@@ -33,16 +30,13 @@ export class PlayFieldComponent implements OnChanges {
    * it will then check the time to see if it is running or not and if the
    * time is running the game is running
    */
-  ngOnChanges() {
-    if(this.time > 0) {
-      this.runGame();
-    } 
+  startGame(gameStart: boolean) {
+    if(gameStart) {
+      this._moleGenerator.startGame();
+    } else {
+      this._moleGenerator.endGame();
+    }
   }
-
-
-runGame() {
-  this._moleGenerator.startGame();
-}
 
   /**
    * gets the index of the square the user pressed, if the square is occupied with a mole the user will get a point
@@ -53,7 +47,6 @@ runGame() {
     let hasMole: boolean = this._moleGenerator.whackedMole(index);
     if(hasMole) {
       this.points++;
-      console.log(this.points);
       this.countPoints.emit(this.points);
     }
   }

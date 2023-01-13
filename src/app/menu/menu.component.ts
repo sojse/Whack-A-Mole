@@ -12,7 +12,8 @@ export class MenuComponent {
   time: number = 60;
   @Input() points: number = 0;
   disableButton: boolean = false;
-  @Output() gameStarted = new EventEmitter<number>();
+  @Output() gameStarted = new EventEmitter<boolean>();
+  gameStart = false;
 
   // dependency injection of the TimeCounterService making it available to use in this class
   constructor(private _countDown: TimeCounterService) { }
@@ -29,11 +30,13 @@ export class MenuComponent {
       //controls if the start game button will be disabled or enabled
       if(this.time === 0) {
         this.disableButton = false;
+        this.gameStart = false;
       } else {
         this.disableButton = true;
+        this.gameStart = true
       }
 
-      this.gameStarted.emit(this.time);
+      this.gameStarted.emit(this.gameStart);
     })
   }
 }
