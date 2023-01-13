@@ -58,7 +58,7 @@ export class MoleGeneratorService {
 
 
   async generateMole() {
-    let playFieldSquare: number = 0;
+    let playFieldSquare: number = 25;
 
     await new Promise(() => {
       setTimeout(() => {
@@ -76,28 +76,29 @@ export class MoleGeneratorService {
 
           this.playField[playFieldSquare].available = false;
           this.numberOfOccupied++;
-          console.log(this.numberOfOccupied);
+          //console.log(this.numberOfOccupied);
     
         }
 
          this.removeMoleAfterFourSeconds(playFieldSquare);
 
-      }, 10 * this.getRandomNumber(10));
+      }, 10 * this.getRandomNumber(100));
     });
   }
 
   /**
-   * den kör varje sekund eftersom den anropas varje sekund tillslut därför det inte funkar
+   * Firstly checks if the playFieldSquare is a valid number, if it is a timeout for 4 seconds will run and
+   * check if the square is already whacked or not. If it isn't numberOfOccupied will decrease
+   * Lastly it will change the square to available
    */
   removeMoleAfterFourSeconds(playFieldSquare: number) {
-    setTimeout(() => {
-      this.playField[playFieldSquare].available = true;
-
-      //funkar inte men behöver en lösning för att inte ta bort något varje sekund
-      if(this.numberOfOccupied >= 3) {
-        this.numberOfOccupied--;
-      }
-    }, 4000);
+    if(playFieldSquare !== 25) {
+      setTimeout(() => {
+        if(this.playField[playFieldSquare].available === false) {
+          this.numberOfOccupied--;
+        }
+        this.playField[playFieldSquare].available = true;
+    }, 4000); }
   }
 
   /**
