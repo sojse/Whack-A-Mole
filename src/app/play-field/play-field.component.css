@@ -6,9 +6,10 @@
 
 .square {
   margin-bottom: 15px;
-  border: solid 1px black;
-  height: 100px;
-  width: 100px;
+  background-color: rgb(89, 67, 39);
+  border-radius: 50%;
+  height: 110px;
+  width: 110px;
   justify-self: center;
   display: flex;
 }

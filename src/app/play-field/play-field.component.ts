@@ -35,11 +35,17 @@ export class PlayFieldComponent {
    * if a mole was whacked the playfield square will change to available
    */
   clickedSquare(index: number) {
+    this.playSoundEffect();
     let hasMole: boolean = this._moleGenerator.whackedMole(index);
     if(hasMole) {
       this.points++;
       this.countPoints.emit(this.points);
     }
+  }
+
+  playSoundEffect() {
+    const audio = new Audio('https://www.fesliyanstudios.com/play-mp3/6283');
+    audio.play();
   }
   
 }
