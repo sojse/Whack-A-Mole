@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 })
 export class TimeCounterService {
 
-  private timeLeft: number = 6;
+  private timeLeft: number = 60;
 
   constructor() { }
 
@@ -14,7 +14,11 @@ export class TimeCounterService {
    * A function that will make a countdown using setInterval and the observer/observable pattern
    * to count down from 60 to 0 seconds
    */
-  countDown() {
+  countDown(gameStatus: boolean) {
+
+    if(gameStatus) {
+      this.timeLeft = 60;
+    }
 
     return new Observable<number>((observer) => {
       setInterval(() => { 

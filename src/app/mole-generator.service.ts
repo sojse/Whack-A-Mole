@@ -35,13 +35,13 @@ export class MoleGeneratorService {
   ];
 
   nbrOfOccupied: number = 0;
+  gameStatus: boolean = false;
 
 
   constructor() { }
 
   /**
  * TO DO
- * 
  * 
  *  fixa så enbart tre moles kan vara uppe samtidigt
  * 
@@ -51,38 +51,38 @@ export class MoleGeneratorService {
     return Math.floor(Math.random() * (max + 1));
   }  
 
-  /**
-   * Dela upp i mindre metoder
-   * 
-   * i start game ska finnas en timer som varje sekund kör en metod som generatr en metod och kollar
-   */
-  startGame() {
+  startGame(gameStart: boolean) {
+    this.gameStatus = gameStart;
+
     //will loop as long as the number generated aren't already occiupied with a mole and as long as the number of
     //moles isn't over three at the same time
     setTimeout(() => {
       this.generateMole();
-    }, 10 * this.getRandomNumber(20));
+    }, 500 * this.getRandomNumber(10));
   }
 
   generateMole() {
     let playFieldsSquare: number = 0;
 
-    playFieldsSquare = this.getRandomNumber(24);
-
-    while (!this.playField[playFieldsSquare].available && this.nbrOfOccupied > 3) {
+    // If the game is on a mole will generate, the if statement is needed otherwise random moles pop up
+    // a few seconds after the game has stopped
+    if(this.gameStatus) {
       playFieldsSquare = this.getRandomNumber(24);
+
+      while (!this.playField[playFieldsSquare].available && this.nbrOfOccupied > 3) {
+        playFieldsSquare = this.getRandomNumber(24);
+      }
+  
+      this.nbrOfOccupied++;
+      console.log(this.nbrOfOccupied);
+  
+  
+      this.playField[playFieldsSquare].available = false;
+  
+      setTimeout(() => {
+        this.makeSquareAvailable(this.playField[playFieldsSquare]);
+      }, 4000);
     }
-
-    this.nbrOfOccupied++;
-    console.log(this.nbrOfOccupied);
-
-
-    this.playField[playFieldsSquare].available = false;
-
-    setTimeout(() => {
-      this.makeSquareAvailable(this.playField[playFieldsSquare]);
-    }, 4000);
-
   }
 
 
@@ -91,7 +91,9 @@ export class MoleGeneratorService {
     this.nbrOfOccupied--;
   }
 
-  endGame() {
+  endGame(gameStart: boolean) {
+    this.gameStatus = gameStart;
+
     this.playField.forEach(element => {
       this.makeSquareAvailable(element);
     })

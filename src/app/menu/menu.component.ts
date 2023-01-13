@@ -23,18 +23,19 @@ export class MenuComponent {
    * pattern to make a countdown from 60 seconds to 0. 
    */
   startGame() {
+    this.points = 0;
+
+    this.gameStart = true;
+    this.disableButton = true;
 
     // Subscribing to the observable in the TimeCounterService to get the count down data. 
-    this._countDown.countDown().subscribe((data) => {
+    this._countDown.countDown(this.gameStart).subscribe((data) => {
       this.time = data;
       //controls if the start game button will be disabled or enabled
       if(this.time === 0) {
         this.disableButton = false;
         this.gameStart = false;
-      } else {
-        this.disableButton = true;
-        this.gameStart = true
-      }
+      } 
 
       this.gameStarted.emit(this.gameStart);
     })

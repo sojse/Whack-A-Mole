@@ -2,15 +2,6 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 import { MoleGeneratorService } from '../mole-generator.service';
 
-/**
- * TO DO
- * 
- * 
- *  fixa så det inte kommer upp några moles när tiden tar slut
- * 
- *  reset poäng när man trycker på start game
- * 
- */
 @Component({
   selector: 'app-play-field',
   templateUrl: './play-field.component.html',
@@ -32,9 +23,9 @@ export class PlayFieldComponent {
    */
   startGame(gameStart: boolean) {
     if(gameStart) {
-      this._moleGenerator.startGame();
+      this._moleGenerator.startGame(gameStart);
     } else {
-      this._moleGenerator.endGame();
+      this._moleGenerator.endGame(gameStart);
     }
   }
 
