@@ -34,7 +34,7 @@ export class MoleGeneratorService {
     {id: 24, available: true},
   ];
 
-  nbrOfOccupied: number = 0;
+  numberOfOccupied: number = 0;
   gameStatus: boolean = false;
 
 
@@ -43,7 +43,7 @@ export class MoleGeneratorService {
   /**
  * TO DO
  * 
- *  fixa så enbart tre moles kan vara uppe samtidigt
+ *  fixa så molesen tas bort efter 4 sekunder i variablen som innehåller hur moles många som är uppe
  * 
  */
 
@@ -53,58 +53,73 @@ export class MoleGeneratorService {
 
   startGame(gameStart: boolean) {
     this.gameStatus = gameStart;
-
-    //will loop as long as the number generated aren't already occiupied with a mole and as long as the number of
-    //moles isn't over three at the same time
-    setTimeout(() => {
-      this.generateMole();
-    }, 500 * this.getRandomNumber(10));
+    this.generateMole();
   }
 
-  generateMole() {
-    let playFieldsSquare: number = 0;
 
-    // If the game is on a mole will generate, the if statement is needed otherwise random moles pop up
-    // a few seconds after the game has stopped
-    if(this.gameStatus) {
-      playFieldsSquare = this.getRandomNumber(24);
+  async generateMole() {
+    let playFieldSquare: number = 0;
 
-      while (!this.playField[playFieldsSquare].available && this.nbrOfOccupied > 3) {
-        playFieldsSquare = this.getRandomNumber(24);
-      }
-  
-      this.nbrOfOccupied++;
-      console.log(this.nbrOfOccupied);
-  
-  
-      this.playField[playFieldsSquare].available = false;
-  
+    await new Promise(() => {
       setTimeout(() => {
-        this.makeSquareAvailable(this.playField[playFieldsSquare]);
-      }, 4000);
-    }
+        // If the game is on a mole will generate and as long as there aren't more than 3 moles up at the same time
+        //the if statement is needed otherwise random moles pop up
+        // a few seconds after the game has stopped
+        if(this.gameStatus && this.numberOfOccupied < 3) {
+          playFieldSquare = this.getRandomNumber(24);
+
+          //will loop as long as the number generated aren't already occiupied with a mole and as long as the number of
+          //moles isn't over three at the same time
+          while (!this.playField[playFieldSquare].available) {
+            playFieldSquare = this.getRandomNumber(24);
+          }
+
+          this.playField[playFieldSquare].available = false;
+          this.numberOfOccupied++;
+          console.log(this.numberOfOccupied);
+    
+        }
+
+         this.removeMoleAfterFourSeconds(playFieldSquare);
+
+      }, 10 * this.getRandomNumber(10));
+    });
   }
 
+  /**
+   * den kör varje sekund eftersom den anropas varje sekund tillslut därför det inte funkar
+   */
+  removeMoleAfterFourSeconds(playFieldSquare: number) {
+    setTimeout(() => {
+      this.playField[playFieldSquare].available = true;
 
-  makeSquareAvailable(square: AvailableSquares) {
-    square.available = true;
-    this.nbrOfOccupied--;
+      //funkar inte men behöver en lösning för att inte ta bort något varje sekund
+      if(this.numberOfOccupied >= 3) {
+        this.numberOfOccupied--;
+      }
+    }, 4000);
   }
 
+  /**
+   * Resets the playfield
+   */
   endGame(gameStart: boolean) {
     this.gameStatus = gameStart;
-
-    this.playField.forEach(element => {
-      this.makeSquareAvailable(element);
+    this.numberOfOccupied = 0;
+    this.playField.forEach(playFieldSquare => {
+      playFieldSquare.available = true;
     })
   }
 
+
+  //#region Functions used by the component to generate the playfield
   /**
    * Checks if the clicked square has a mole and returns the answer to the component
    */
   whackedMole(index: number) {
     if(this.playField[index].available === false) {
-      this.makeSquareAvailable(this.playField[index]);
+      this.numberOfOccupied--;
+      this.playField[index].available = true;
       return true;
     }
     return false;
@@ -123,5 +138,5 @@ export class MoleGeneratorService {
   getSquareStatus(index: number) {
     return this.playField[index].available;
   }
-  
+  //#endregion
 }

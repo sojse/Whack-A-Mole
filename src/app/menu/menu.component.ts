@@ -9,14 +9,16 @@ import { TimeCounterService } from '../time-counter.service';
   styleUrls: ['./menu.component.css']
 })
 export class MenuComponent {
-  time: number = 60;
+  time!: number;
   @Input() points: number = 0;
   disableButton: boolean = false;
   @Output() gameStarted = new EventEmitter<boolean>();
   gameStart = false;
 
   // dependency injection of the TimeCounterService making it available to use in this class
-  constructor(private _countDown: TimeCounterService) { }
+  constructor(private _countDown: TimeCounterService) { 
+    this.time = this._countDown.timeLeft
+  }
 
   /**
    * When the user starts the game the TimeCounterService will be used using the observer/observable

@@ -22,6 +22,7 @@ export class PlayFieldComponent {
    * time is running the game is running
    */
   startGame(gameStart: boolean) {
+    const audio = new Audio('');
     if(gameStart) {
       this._moleGenerator.startGame(gameStart);
     } else {
@@ -35,9 +36,9 @@ export class PlayFieldComponent {
    * if a mole was whacked the playfield square will change to available
    */
   clickedSquare(index: number) {
-    this.playSoundEffect();
     let hasMole: boolean = this._moleGenerator.whackedMole(index);
     if(hasMole) {
+      this.playSoundEffect();
       this.points++;
       this.countPoints.emit(this.points);
     }
