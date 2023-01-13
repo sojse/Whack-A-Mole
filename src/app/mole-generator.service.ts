@@ -1,3 +1,4 @@
+// Josefine Isberg, FEU22
 import { Injectable } from '@angular/core';
 
 import { AvailableSquares } from './AvailableSquares';
@@ -40,13 +41,6 @@ export class MoleGeneratorService {
 
   constructor() { }
 
-  /**
- * TO DO
- * 
- *  fixa så molesen tas bort efter 4 sekunder i variablen som innehåller hur moles många som är uppe
- * 
- */
-
   getRandomNumber(max: number) : number {
     return Math.floor(Math.random() * (max + 1));
   }  
@@ -57,38 +51,40 @@ export class MoleGeneratorService {
   }
 
 
-  async generateMole() {
-    let playFieldSquare: number = 25;
+  /**
+   * This function will run once every second and generate a mole, that will pop up on the playfield
+   * in a random amount of time, if there aren't already 3 moles on the playfield.
+   * It will then get a random number that resembles one of the playfield id:s. if it generates a number that is
+   * already occupied it will generate a new until it finds a value in an available square. 
+   */
+  generateMole() {
+    let playFieldSquare: number = 25;   //default value that is outside of the playfield array indexes.
 
-    await new Promise(() => {
+
       setTimeout(() => {
-        // If the game is on a mole will generate and as long as there aren't more than 3 moles up at the same time
-        //the if statement is needed otherwise random moles pop up
-        // a few seconds after the game has stopped
+        // needs to check the gameStatus otherwise random moles pop up a few seconds after the game has stopped
         if(this.gameStatus && this.numberOfOccupied < 3) {
           playFieldSquare = this.getRandomNumber(24);
 
-          //will loop as long as the number generated aren't already occiupied with a mole and as long as the number of
-          //moles isn't over three at the same time
           while (!this.playField[playFieldSquare].available) {
             playFieldSquare = this.getRandomNumber(24);
           }
 
-          this.playField[playFieldSquare].available = false;
+          this.playField[playFieldSquare].available = false;  //making the square occupied
           this.numberOfOccupied++;
-          //console.log(this.numberOfOccupied);
-    
+
         }
 
          this.removeMoleAfterFourSeconds(playFieldSquare);
 
       }, 10 * this.getRandomNumber(100));
-    });
+    
   }
 
   /**
    * Firstly checks if the playFieldSquare is a valid number, if it is a timeout for 4 seconds will run and
-   * check if the square is already whacked or not. If it isn't numberOfOccupied will decrease
+   * check if the square is already whacked or not. If it isn't numberOfOccupied will decrease and open up for new
+   * moles to pop up on the screen
    * Lastly it will change the square to available
    */
   removeMoleAfterFourSeconds(playFieldSquare: number) {

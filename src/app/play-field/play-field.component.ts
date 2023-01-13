@@ -1,3 +1,4 @@
+// Josefine Isberg, FEU22
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 import { MoleGeneratorService } from '../mole-generator.service';
@@ -11,18 +12,14 @@ export class PlayFieldComponent {
   
   points: number = 0;
   @Output() countPoints = new EventEmitter<number>();
-  
-  @Input() time: number = 0;
 
   constructor(public _moleGenerator: MoleGeneratorService) { }
 
   /**
-   * This function will run every time the time input variable changes
-   * it will then check the time to see if it is running or not and if the
-   * time is running the game is running
+   * As long as the gameStart variable is true the startGame function in my service will be executed
+   * when gameStart is false the endGame function will be executed
    */
   startGame(gameStart: boolean) {
-    const audio = new Audio('');
     if(gameStart) {
       this._moleGenerator.startGame(gameStart);
     } else {
@@ -31,9 +28,9 @@ export class PlayFieldComponent {
   }
 
   /**
-   * gets the index of the square the user pressed, if the square is occupied with a mole the user will get a point
+   * Starts with checking with the service if the square has a mole in it.
+   * if the square is occupied with a mole the user will get a point
    * the points are getting emitted to the parent component and will later be used in the menu component to display the points
-   * if a mole was whacked the playfield square will change to available
    */
   clickedSquare(index: number) {
     let hasMole: boolean = this._moleGenerator.whackedMole(index);
@@ -44,9 +41,11 @@ export class PlayFieldComponent {
     }
   }
 
+  /**
+   * Plays sound effect when the user hits a mole
+   */
   playSoundEffect() {
     const audio = new Audio('https://www.fesliyanstudios.com/play-mp3/6283');
     audio.play();
   }
-  
 }

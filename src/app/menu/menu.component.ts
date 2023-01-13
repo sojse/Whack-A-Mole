@@ -1,3 +1,4 @@
+// Josefine Isberg, FEU22
 import { Component, EventEmitter } from '@angular/core';
 import { Output, Input } from '@angular/core';
 
@@ -17,12 +18,14 @@ export class MenuComponent {
 
   // dependency injection of the TimeCounterService making it available to use in this class
   constructor(private _countDown: TimeCounterService) { 
-    this.time = this._countDown.timeLeft
+    // connectint the time variable in the component with the time variable in the service
+    this.time = this._countDown.timeLeft;
   }
 
   /**
    * When the user starts the game the TimeCounterService will be used using the observer/observable
-   * pattern to make a countdown from 60 seconds to 0. 
+   * pattern to make a countdown from 60 seconds to 0. And start the game by emitting data about the 
+   * gameStatus every second that the observable emits data (every second) 
    */
   startGame() {
     this.points = 0;

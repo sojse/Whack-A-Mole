@@ -1,12 +1,16 @@
+// Josefine Isberg, FEU22
 import { Component } from '@angular/core';
 
+/**
+ * when the game is started a function from the menu component will call a function in the playfield component
+ */
 @Component({
   selector: 'app-root',
   template: `
   <div class="container">
     <h1>Whack-A-Mole</h1>
     <app-menu [points]="currentPoints" (gameStarted)="playfield.startGame($event)"></app-menu>
-    <app-play-field (countPoints)="updatePoints($event)" [time]="currentTime" #playfield></app-play-field>
+    <app-play-field (countPoints)="updatePoints($event)" #playfield></app-play-field>
   </div>
   `,
   styles: [`
@@ -33,7 +37,6 @@ export class AppComponent {
   }
 
   getTime(time: number) {
-    //getTime($event)
     this.currentTime = time;
   }
 }
