@@ -12,15 +12,28 @@
   width: 110px;
   justify-self: center;
   display: flex;
+  box-shadow: inset 0 10px 0 7px rgb(53, 39, 20);
+  overflow: hidden;
 }
 
 .square:hover {
   background-color: #116530;
+  box-shadow: none;
 }
 
 img {
   width: 100%;
   object-fit: contain;
+  animation: rise 0.3s ease-out;
+}
+
+@keyframes rise {
+  0% {
+    transform: translateY(100%);
+  }
+  100% {
+    transform: translateY(0);
+  }
 }
 
 .empty {
