@@ -1,5 +1,5 @@
 // Josefine Isberg, FEU22
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 
 import { MoleGeneratorService } from '../mole-generator.service';
 

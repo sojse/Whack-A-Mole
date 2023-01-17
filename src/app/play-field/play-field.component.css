@@ -4,7 +4,7 @@
   grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
 }
 
-.square {
+.hole {
   margin-bottom: 15px;
   background-color: rgb(89, 67, 39);
   border-radius: 50%;
@@ -16,7 +16,7 @@
   overflow: hidden;
 }
 
-.square:hover {
+.hole:hover {
   background-color: #116530;
   box-shadow: none;
 }

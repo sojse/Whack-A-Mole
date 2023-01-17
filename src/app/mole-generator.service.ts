@@ -1,13 +1,14 @@
 // Josefine Isberg, FEU22
 import { Injectable } from '@angular/core';
 
-import { AvailableSquares } from './AvailableSquares';
+import { AvailableHole } from './AvailableSquares';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MoleGeneratorService {
-  playField: AvailableSquares[] = [
+
+  playField: AvailableHole[] = [
     {id: 0, available: true},
     {id: 1, available: true},
     {id: 2, available: true},
@@ -58,24 +59,24 @@ export class MoleGeneratorService {
    * already occupied it will generate a new until it finds a value in an available square. 
    */
   generateMole() {
-    let playFieldSquare: number = 25;   //default value that is outside of the playfield array indexes.
+    let hole: number = 25;   //default value that is outside of the playfield array indexes.
 
 
       setTimeout(() => {
         // needs to check the gameStatus otherwise random moles pop up a few seconds after the game has stopped
         if(this.gameStatus && this.numberOfOccupied < 3) {
-          playFieldSquare = this.getRandomNumber(24);
+          hole = this.getRandomNumber(24);
 
-          while (!this.playField[playFieldSquare].available) {
-            playFieldSquare = this.getRandomNumber(24);
+          while (!this.playField[hole].available) {
+            hole = this.getRandomNumber(24);
           }
 
-          this.playField[playFieldSquare].available = false;  //making the square occupied
+          this.playField[hole].available = false;  //making the square occupied
           this.numberOfOccupied++;
 
         }
 
-         this.removeMoleAfterFourSeconds(playFieldSquare);
+         this.removeMoleAfterFourSeconds(hole);
 
       }, 10 * this.getRandomNumber(100));
     
@@ -87,13 +88,13 @@ export class MoleGeneratorService {
    * moles to pop up on the screen
    * Lastly it will change the square to available
    */
-  removeMoleAfterFourSeconds(playFieldSquare: number) {
-    if(playFieldSquare !== 25) {
+  removeMoleAfterFourSeconds(hole: number) {
+    if(hole !== 25) {
       setTimeout(() => {
-        if(this.playField[playFieldSquare].available === false) {
+        if(this.playField[hole].available === false) {
           this.numberOfOccupied--;
         }
-        this.playField[playFieldSquare].available = true;
+        this.playField[hole].available = true;
     }, 4000); }
   }
 

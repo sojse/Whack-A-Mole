@@ -18,7 +18,7 @@ export class MenuComponent {
 
   // dependency injection of the TimeCounterService making it available to use in this class
   constructor(private _countDown: TimeCounterService) { 
-    // connectint the time variable in the component with the time variable in the service
+    // connecting the time variable in the component with the time variable in the service
     this.time = this._countDown.timeLeft;
   }
 

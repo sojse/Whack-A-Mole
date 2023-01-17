@@ -1,12 +1,10 @@
 <div class="playfield">
   <div
-    class="square"
-    id="square{{ i }}"
+    class="hole"
     *ngFor="let square of _moleGenerator.getPlayfield(); index as i"
     (click)="clickedSquare(i)"
   >
     <img
-      id="mole{{ i }}"
       src="..\assets\images\mole-head.png"
       alt=""
       [ngClass]="_moleGenerator.getSquareStatus(i) === true ? 'empty' : ''"
