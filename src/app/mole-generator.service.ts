@@ -53,14 +53,13 @@ export class MoleGeneratorService {
 
 
   /**
-   * This function will run once every second and generate a mole, that will pop up on the playfield
+   * This function will  generate a mole, that will pop up on the playfield
    * in a random amount of time, if there aren't already 3 moles on the playfield.
    * It will then get a random number that resembles one of the playfield id:s. if it generates a number that is
    * already occupied it will generate a new until it finds a value in an available square. 
    */
   generateMole() {
     let hole: number = 25;   //default value that is outside of the playfield array indexes.
-
 
       setTimeout(() => {
         // needs to check the gameStatus otherwise random moles pop up a few seconds after the game has stopped
@@ -73,29 +72,26 @@ export class MoleGeneratorService {
 
           this.playField[hole].available = false;  //making the square occupied
           this.numberOfOccupied++;
-
-        }
-
-         this.removeMoleAfterFourSeconds(hole);
+          
+          this.removeMoleAfterFourSeconds(hole);
+        }       
 
       }, 10 * this.getRandomNumber(100));
     
   }
 
   /**
-   * Firstly checks if the playFieldSquare is a valid number, if it is a timeout for 4 seconds will run and
-   * check if the square is already whacked or not. If it isn't numberOfOccupied will decrease and open up for new
-   * moles to pop up on the screen
+   * Sets a timeout for 4 seconds and check if the square is already whacked or not. 
+   * If it isn't numberOfOccupied will decrease and open up for new mole to pop up on the screen
    * Lastly it will change the square to available
    */
   removeMoleAfterFourSeconds(hole: number) {
-    if(hole !== 25) {
       setTimeout(() => {
         if(this.playField[hole].available === false) {
           this.numberOfOccupied--;
         }
         this.playField[hole].available = true;
-    }, 4000); }
+      }, 4000); 
   }
 
   /**
